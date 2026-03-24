@@ -46,7 +46,7 @@ jobs:
           printf '%s' "$(echo "$RAW" | sed "s/{TODAY}/$TODAY/g")" > /tmp/aider_prompt.txt
           echo "today=$TODAY" >> "$GITHUB_OUTPUT"
 
-      - name: Run aider
+      - name: Run aider (README.md only)
         env:
           OPENAI_API_KEY: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -54,9 +54,32 @@ jobs:
           aider \
             --read "$SKILLS_TMPFILE" \
             --file README.md \
-            --file CHANGELOG.md \
             --message-file /tmp/aider_prompt.txt \
             --no-suggest-shell-commands
+
+      - name: Update CHANGELOG.md (prepend entry via shell)
+        # Shell owns CHANGELOG — reliable, no SEARCH/REPLACE fragility.
+        # Detects rank changes by diffing the Name column order before/after.
+        run: |
+          TODAY=${{ steps.prompt.outputs.today }}
+
+          # Extract current Name column order from the new README
+          NEW_RANKS=$(grep '^\| [0-9]' README.md | sed 's/.*\*\*\(.*\)\*\*.*/\1/')
+
+          # Extract previous Name column order from git (last commit of README)
+          OLD_RANKS=$(git show HEAD:README.md 2>/dev/null \
+            | grep '^\| [0-9]' | sed 's/.*\*\*\(.*\)\*\*.*/\1/' || echo "")
+
+          if [ "$NEW_RANKS" = "$OLD_RANKS" ]; then
+            CHANGES="No ranking changes this run."
+          else
+            CHANGES="Ranking or content updated — diff the commit for details."
+          fi
+
+          # Prepend new entry to CHANGELOG.md (temp file swap)
+          NEW_ENTRY="## $TODAY\n\n- $CHANGES\n\n---\n\n"
+          printf "$NEW_ENTRY" | cat - CHANGELOG.md > /tmp/CHANGELOG.tmp
+          mv /tmp/CHANGELOG.tmp CHANGELOG.md
 
       - name: Commit and push changes
         run: |
