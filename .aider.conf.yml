@@ -9,9 +9,10 @@ openai-api-base: https://models.inference.ai.azure.com
 # Only these two files may be edited by aider
 # (passed explicitly via --file in the workflow, so no auto-discovery needed)
 
-# Skill loaded read-only as context
-read:
-  - skills/list-sw-dev-file-trees-en/SKILL.md
+# Note: skill context is NOT listed here — the workflow injects it at runtime via:
+#   --read $(aider-skills tmpfile ./skills)
+# This ensures SKILL.md + all references/ files are passed as proper
+# <available_skills> XML, as defined by the agentskills.io spec.
 
 # Suppress interactive prompts — essential for CI
 yes: true

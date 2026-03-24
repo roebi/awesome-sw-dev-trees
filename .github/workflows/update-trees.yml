@@ -27,9 +27,9 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Install aider
+      - name: Install aider and aider-skills
         run: |
-          pip install aider-chat --break-system-packages
+          pip install aider-chat aider-skills
 
       - name: Prepare prompt (inject today's date)
         id: prompt
@@ -47,7 +47,13 @@ jobs:
           # GitHub Models API: use GITHUB_TOKEN as the OpenAI-compatible key
           OPENAI_API_KEY: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # aider-skills tmpfile generates the <available_skills> XML for all
+          # skills in ./skills/ (SKILL.md + all references/) and writes it to
+          # a temp file, which aider reads as read-only context.
+          SKILLS_TMPFILE=$(aider-skills tmpfile ./skills)
+
           aider \
+            --read "$SKILLS_TMPFILE" \
             --file README.md \
             --file CHANGELOG.md \
             --message-file /tmp/aider_prompt.txt \
