@@ -28,15 +28,22 @@ jobs:
           # on GitHub-hosted Ubuntu runners — no extra PATH step needed.
           tool-bin-dir: "~/.local/bin"
 
-      - name: Install aider-chat and aider-skills (Python 3.12)
+      - name: Install aider-chat (Python 3.12)
         run: |
           # aider-chat requires Python <3.13 — uv fetches 3.12 automatically.
-          # --with aider-skills injects it into the same isolated tool env
-          # so both `aider` and `aider-skills` are available on PATH via
-          # ~/.local/bin which setup-uv already registered above.
-          uv tool install --force --python python3.12 \
-            --with aider-skills \
-            aider-chat@latest
+          # Installs the `aider` executable into ~/.local/bin.
+          uv tool install --force --python python3.12 aider-chat@latest
+
+      - name: Install aider-skills (Python 3.12)
+        run: |
+          # Installed as a separate uv tool so the `aider-skills` executable
+          # is independently available on PATH in ~/.local/bin.
+          uv tool install --force --python python3.12 aider-skills
+
+      - name: Verify tools on PATH
+        run: |
+          aider --version
+          aider-skills --version
 
       - name: Prepare prompt (inject today's date)
         id: prompt
