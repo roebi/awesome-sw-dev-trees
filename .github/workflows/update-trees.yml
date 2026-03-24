@@ -23,21 +23,20 @@ jobs:
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
+        with:
+          # Pin tool binaries to ~/.local/bin which is already on PATH
+          # on GitHub-hosted Ubuntu runners — no extra PATH step needed.
+          tool-bin-dir: "~/.local/bin"
 
-      - name: Install aider-chat and aider-skills via uv (Python 3.12)
+      - name: Install aider-chat and aider-skills (Python 3.12)
         run: |
           # aider-chat requires Python <3.13 — uv fetches 3.12 automatically.
           # --with aider-skills injects it into the same isolated tool env
-          # so both `aider` and `aider-skills` share the same Python.
+          # so both `aider` and `aider-skills` are available on PATH via
+          # ~/.local/bin which setup-uv already registered above.
           uv tool install --force --python python3.12 \
             --with aider-skills \
             aider-chat@latest
-
-      - name: Add uv tool bin to PATH
-        # uv tool install puts binaries in its own bin dir which is NOT
-        # automatically on $GITHUB_PATH — this step makes `aider` and
-        # `aider-skills` available to all subsequent steps.
-        run: echo "$(uv tool bin)" >> "$GITHUB_PATH"
 
       - name: Prepare prompt (inject today's date)
         id: prompt
@@ -51,8 +50,12 @@ jobs:
 
       - name: Run aider
         env:
+          # GitHub Models API: use GITHUB_TOKEN as the OpenAI-compatible key
           OPENAI_API_KEY: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # aider-skills tmpfile generates the <available_skills> XML covering
+          # SKILL.md + all references/ files, written to a temp file.
+          # aider reads it as read-only context per the agentskills.io spec.
           SKILLS_TMPFILE=$(aider-skills tmpfile ./skills)
 
           aider \
