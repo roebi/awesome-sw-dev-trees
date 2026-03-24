@@ -9,6 +9,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  models: read   # required for GitHub Models API (inference.ai.azure.com)
   contents: write   # needed to push the updated README.md + CHANGELOG.md
 
 jobs:
