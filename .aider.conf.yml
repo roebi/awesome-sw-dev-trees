@@ -1,0 +1,28 @@
+# .aider.conf.yml
+# Configuration for aider in awesome-sw-dev-trees.
+# GitHub Models API (OpenAI-compatible, free with GITHUB_TOKEN).
+
+model: openai/gpt-4o
+openai-api-base: https://models.inference.ai.azure.com
+# openai-api-key is provided at runtime via OPENAI_API_KEY env var (set to GITHUB_TOKEN)
+
+# Only these two files may be edited by aider
+# (passed explicitly via --file in the workflow, so no auto-discovery needed)
+
+# Skill loaded read-only as context
+read:
+  - skills/list-sw-dev-file-trees-en/SKILL.md
+
+# Suppress interactive prompts — essential for CI
+yes: true
+
+# No repo map needed for a 2-file project
+map-tokens: 0
+
+# aider git config
+auto-commits: false   # workflow handles the commit explicitly
+dirty-commits: false
+
+# Reduce noise in CI logs
+show-model-warnings: false
+stream: false

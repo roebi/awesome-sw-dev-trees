@@ -1,0 +1,69 @@
+name: Update SW Dev File Trees
+
+on:
+  # Bi-weekly: every other Monday at 06:00 UTC
+  schedule:
+    - cron: '0 6 * * 1/14'
+
+  # Allow manual trigger from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: write   # needed to push the updated README.md + CHANGELOG.md
+
+jobs:
+  update-trees:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Full history so git log in CHANGELOG context is available
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install aider
+        run: |
+          pip install aider-chat --break-system-packages
+
+      - name: Prepare prompt (inject today's date)
+        id: prompt
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          RAW=$(cat skills/list-sw-dev-file-trees-en/references/prompt.md \
+                | sed -n '/^```$/,/^```$/{ /^```$/d; p }')
+          MSG=$(echo "$RAW" | sed "s/{TODAY}/$TODAY/g")
+          # Write to temp file to avoid shell quoting issues
+          printf '%s' "$MSG" > /tmp/aider_prompt.txt
+          echo "today=$TODAY" >> "$GITHUB_OUTPUT"
+
+      - name: Run aider
+        env:
+          # GitHub Models API: use GITHUB_TOKEN as the OpenAI-compatible key
+          OPENAI_API_KEY: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          aider \
+            --file README.md \
+            --file CHANGELOG.md \
+            --message-file /tmp/aider_prompt.txt \
+            --no-suggest-shell-commands
+
+      - name: Commit and push changes
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add README.md CHANGELOG.md
+
+          # Only commit if something actually changed
+          if git diff --cached --quiet; then
+            echo "No changes — skipping commit."
+          else
+            git commit -m "chore(auto): refresh file tree list [${{ steps.prompt.outputs.today }}]"
+            git push
+          fi
