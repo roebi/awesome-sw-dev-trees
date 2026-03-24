@@ -3,33 +3,33 @@
 > Ordered by prevalence of use across the software development ecosystem.
 > Last updated: 2026-03-24
 
-| # | Name | Summary Description | Detail |
-|---|------|---------------------|--------|
-| 1 | **src/ + tests/** | Common source and test folders | Contains source code in `src/` and tests in `tests/`. Widely adopted across multiple languages and frameworks. |
-| 2 | **Maven Standard Directory Layout** | Java project structure | Includes `src/main/java` for source code and `src/test/java` for tests. Standard for Maven-based Java projects. |
-| 3 | **Monorepo** | Single repository for multiple projects | Organizes multiple projects in a single repository. Popular in large-scale projects like Google and Facebook. |
-| 4 | **Feature-Sliced Design** | Feature-based modular structure | Groups files by feature or module. Promotes scalability and maintainability. |
-| 5 | **Next.js Default** | React-based framework structure | Includes `pages/` for routes and `public/` for static assets. Standard for Next.js projects. |
-| 6 | **Django Default** | Python web framework structure | Includes `apps/` for modular apps and `templates/` for HTML files. Common in Python web development. |
-| 7 | **Rails Default** | Ruby on Rails structure | Includes `app/` for MVC components and `db/` for migrations. Standard for Rails applications. |
-| 8 | **Node.js + Express** | Backend JavaScript framework structure | Includes `routes/` for endpoints and `views/` for templates. Popular for server-side JavaScript. |
-| 9 | **React + Redux** | Frontend JavaScript framework structure | Organizes components, actions, and reducers. Common in React applications using Redux. |
-| 10 | **Angular CLI** | Angular project structure | Includes `src/app/` for components and `src/assets/` for static files. Standard for Angular projects. |
-| 11 | **Vue.js Default** | Vue.js project structure | Includes `src/components/` for components and `src/assets/` for static files. Common in Vue.js projects. |
-| 12 | **Flutter Default** | Mobile app framework structure | Includes `lib/` for Dart code and `assets/` for resources. Standard for Flutter applications. |
-| 13 | **Spring Boot Default** | Java microservices structure | Includes `src/main/java` for code and `src/main/resources` for configuration. Common in Spring Boot projects. |
-| 14 | **Terraform Modules** | Infrastructure as code structure | Organizes infrastructure code into reusable modules. Standard for Terraform projects. |
-| 15 | **Podman/Docker** | Containerization structure | Includes `Dockerfile` and `docker-compose.yml`. Common for containerized applications. |
-| 16 | **CI/CD Pipelines** | Continuous integration structure | Includes `.github/workflows/` or `.gitlab-ci.yml`. Standard for CI/CD pipelines. |
-| 17 | **Data Science Projects** | Data analysis structure | Includes `notebooks/` for Jupyter notebooks and `data/` for datasets. Common in data science. |
-| 18 | **Microservices** | Distributed services structure | Organizes services into separate directories. Common in microservices architectures. |
-| 19 | **Serverless Framework** | Serverless application structure | Includes `functions/` for serverless functions and `resources/` for configurations. Popular for serverless applications. |
-| 20 | **Electron Default** | Desktop app framework structure | Includes `main.js` for main process and `renderer/` for UI. Standard for Electron apps. |
-| 21 | **Unity Default** | Game development structure | Includes `Assets/` for game assets and `Scripts/` for code. Standard for Unity projects. |
-| 22 | **Blazor Default** | .NET web framework structure | Includes `Pages/` for Razor components and `wwwroot/` for static files. Common in Blazor projects. |
-| 23 | **Laravel Default** | PHP web framework structure | Includes `app/` for MVC components and `resources/` for views. Standard for Laravel applications. |
-| 24 | **WordPress Plugin** | WordPress plugin structure | Includes `plugin-name.php` and `includes/`. Standard for WordPress plugins. |
-| 25 | **Agent Skills Layout** | AI agent skills structure | Organizes skills into modular directories. Standard for agentskills.io projects. |
+| #  | Name                              | Summary Description              | Detail                                                                 |
+|----|-----------------------------------|----------------------------------|-----------------------------------------------------------------------|
+| 1  | **src/ + tests/**                 | Standard source and test folders | Common in most programming languages for organizing code and tests.   |
+| 2  | **Maven Standard Directory Layout** | Java project structure           | Widely used in Java projects, especially with Maven and Gradle tools. |
+| 3  | **Next.js App Directory**         | React-based web apps             | Default structure for Next.js projects, supporting server-side rendering. |
+| 4  | **Django Project Layout**         | Python web framework structure   | Used in Django projects for MVC architecture and app modularity.      |
+| 5  | **Rails Default Structure**       | Ruby on Rails projects           | Convention-over-configuration structure for web applications.         |
+| 6  | **Feature-Sliced Design**         | Feature-based modular structure  | Popular in frontend projects for scalable and maintainable codebases. |
+| 7  | **Monorepo**                      | Single repo for multiple projects| Common in large organizations for managing interdependent projects.   |
+| 8  | **Clean Architecture**            | Layered architecture             | Focuses on separation of concerns and testability.                    |
+| 9  | **Hexagonal Architecture**        | Ports and adapters architecture  | Emphasizes decoupling of business logic from external systems.        |
+| 10 | **Microservices Layout**          | Independent service structure    | Used for distributed systems with independent deployable services.    |
+| 11 | **Serverless Framework**          | Cloud function organization      | Structure for serverless applications using AWS Lambda, Azure, etc.   |
+| 12 | **Terraform Modules**             | Infrastructure as code           | Organizes reusable infrastructure modules for cloud provisioning.     |
+| 13 | **Podman Project Layout**         | Containerized app structure      | Used for containerized applications with Podman and Docker.           |
+| 14 | **Data Science Project Template** | Analysis and ML projects         | Organizes data, notebooks, and scripts for reproducible research.     |
+| 15 | **Spring Boot Default Layout**    | Java microservices               | Default structure for Spring Boot applications.                       |
+| 16 | **Flutter Project Layout**        | Mobile app development           | Default structure for Flutter apps, supporting cross-platform builds. |
+| 17 | **CI/CD Pipeline Layout**         | Continuous integration/delivery  | Organizes pipeline scripts and configurations for automated workflows.|
+| 18 | **Electron App Structure**        | Desktop apps with web tech       | Structure for building cross-platform desktop apps using web tech.    |
+| 19 | **Unity Project Layout**          | Game development                 | Default structure for Unity game projects.                            |
+| 20 | **React Native Project Layout**   | Mobile app development           | Default structure for React Native apps.                              |
+| 21 | **Express.js App Layout**         | Node.js web apps                 | Common structure for Express.js applications.                         |
+| 22 | **Nuxt.js Project Layout**        | Vue-based web apps               | Default structure for Nuxt.js projects, supporting server-side rendering. |
+| 23 | **Kubernetes Manifests**          | Container orchestration configs  | Organizes YAML files for Kubernetes deployments and services.         |
+| 24 | **Agent Skills Layout**           | AI agent skills                  | Standard structure for agent skills as per agentskills.io guidelines. |
+| 25 | **Static Site Generators**        | Static website projects          | Structure for static site generators like Jekyll, Hugo, and Gatsby.   |
 
 ---
 
