@@ -19,7 +19,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # Full history so git log in CHANGELOG context is available
           fetch-depth: 0
 
       - name: Install uv
@@ -27,14 +26,18 @@ jobs:
 
       - name: Install aider-chat and aider-skills via uv (Python 3.12)
         run: |
-          # uv fetches Python 3.12 automatically — no setup-python step needed.
-          # aider-chat requires Python <3.13, >=3.10.
+          # aider-chat requires Python <3.13 — uv fetches 3.12 automatically.
           # --with aider-skills injects it into the same isolated tool env
-          # (equivalent of pipx inject), so both `aider` and `aider-skills`
-          # are available on PATH.
+          # so both `aider` and `aider-skills` share the same Python.
           uv tool install --force --python python3.12 \
             --with aider-skills \
             aider-chat@latest
+
+      - name: Add uv tool bin to PATH
+        # uv tool install puts binaries in its own bin dir which is NOT
+        # automatically on $GITHUB_PATH — this step makes `aider` and
+        # `aider-skills` available to all subsequent steps.
+        run: echo "$(uv tool bin)" >> "$GITHUB_PATH"
 
       - name: Prepare prompt (inject today's date)
         id: prompt
@@ -43,18 +46,13 @@ jobs:
           RAW=$(cat skills/list-sw-dev-file-trees-en/references/prompt.md \
                 | sed -n '/^```$/,/^```$/{ /^```$/d; p }')
           MSG=$(echo "$RAW" | sed "s/{TODAY}/$TODAY/g")
-          # Write to temp file to avoid shell quoting issues
           printf '%s' "$MSG" > /tmp/aider_prompt.txt
           echo "today=$TODAY" >> "$GITHUB_OUTPUT"
 
       - name: Run aider
         env:
-          # GitHub Models API: use GITHUB_TOKEN as the OpenAI-compatible key
           OPENAI_API_KEY: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # aider-skills tmpfile generates the <available_skills> XML covering
-          # SKILL.md + all references/ files, written to a temp file.
-          # aider reads it as read-only context per the agentskills.io spec.
           SKILLS_TMPFILE=$(aider-skills tmpfile ./skills)
 
           aider \
@@ -71,7 +69,6 @@ jobs:
 
           git add README.md CHANGELOG.md
 
-          # Only commit if something actually changed
           if git diff --cached --quiet; then
             echo "No changes — skipping commit."
           else
