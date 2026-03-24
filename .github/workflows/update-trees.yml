@@ -1,11 +1,8 @@
 name: Update SW Dev File Trees
 
 on:
-  # Bi-weekly: every other Monday at 06:00 UTC
   schedule:
-    - cron: '0 6 1,15 * *'
-
-  # Allow manual trigger from the Actions tab
+    - cron: '0 6 1,15 * *'  # 1st and 15th of each month, 06:00 UTC
   workflow_dispatch:
 
 permissions:
@@ -25,19 +22,13 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v5
         with:
-          # Pin tool binaries to ~/.local/bin which is already on PATH
-          # on GitHub-hosted Ubuntu runners — no extra PATH step needed.
           tool-bin-dir: "~/.local/bin"
 
       - name: Install aider-chat (Python 3.12)
-        run: |
-          # aider-chat requires Python <3.13 — uv fetches 3.12 automatically.
-          uv tool install --force --python python3.12 aider-chat@latest
+        run: uv tool install --force --python python3.12 aider-chat@latest
 
       - name: Install aider-skills (Python 3.12)
-        run: |
-          # Separate uv tool install so `aider-skills` gets its own executable.
-          uv tool install --force --python python3.12 aider-skills
+        run: uv tool install --force --python python3.12 aider-skills
 
       - name: Verify tools on PATH
         run: |
@@ -45,32 +36,21 @@ jobs:
           aider-skills --version
 
       - name: Reset README.md to clean skeleton
-        # Safety net: truncate README.md to a minimal header before aider runs.
-        # This guarantees aider always writes a fresh table into an empty file
-        # rather than risk a SEARCH/REPLACE patch duplicating existing content.
-        run: |
-          cat > README.md << 'SKELETON'
-# 25 Most Used File Trees in Software Development
-
-SKELETON
+        run: printf '# 25 Most Used File Trees in Software Development\n' > README.md
 
       - name: Prepare prompt (inject today's date)
         id: prompt
         run: |
           TODAY=$(date -u +%Y-%m-%d)
-          RAW=$(cat skills/list-sw-dev-file-trees-en/references/prompt.md \
-                | sed -n '/^```$/,/^```$/{ /^```$/d; p }')
-          MSG=$(echo "$RAW" | sed "s/{TODAY}/$TODAY/g")
-          printf '%s' "$MSG" > /tmp/aider_prompt.txt
+          RAW=$(sed -n '/^```$/,/^```$/{ /^```$/d; p }' skills/list-sw-dev-file-trees-en/references/prompt.md)
+          printf '%s' "$(echo "$RAW" | sed "s/{TODAY}/$TODAY/g")" > /tmp/aider_prompt.txt
           echo "today=$TODAY" >> "$GITHUB_OUTPUT"
 
       - name: Run aider
         env:
-          # GitHub Models API: use GITHUB_TOKEN as the OpenAI-compatible key
           OPENAI_API_KEY: ${{ secrets.GITHUB_TOKEN }}
         run: |
           SKILLS_TMPFILE=$(aider-skills tmpfile ./skills)
-
           aider \
             --read "$SKILLS_TMPFILE" \
             --file README.md \
@@ -82,9 +62,7 @@ SKELETON
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
           git add README.md CHANGELOG.md
-
           if git diff --cached --quiet; then
             echo "No changes — skipping commit."
           else
