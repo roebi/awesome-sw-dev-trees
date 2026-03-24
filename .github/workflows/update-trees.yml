@@ -9,8 +9,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  models: read   # required for GitHub Models API (inference.ai.azure.com)
-  contents: write   # needed to push the updated README.md + CHANGELOG.md
+  models: read    # required for GitHub Models API (inference.ai.azure.com)
+  contents: write # needed to push the updated README.md + CHANGELOG.md
 
 jobs:
   update-trees:
@@ -32,19 +32,27 @@ jobs:
       - name: Install aider-chat (Python 3.12)
         run: |
           # aider-chat requires Python <3.13 — uv fetches 3.12 automatically.
-          # Installs the `aider` executable into ~/.local/bin.
           uv tool install --force --python python3.12 aider-chat@latest
 
       - name: Install aider-skills (Python 3.12)
         run: |
-          # Installed as a separate uv tool so the `aider-skills` executable
-          # is independently available on PATH in ~/.local/bin.
+          # Separate uv tool install so `aider-skills` gets its own executable.
           uv tool install --force --python python3.12 aider-skills
 
       - name: Verify tools on PATH
         run: |
           aider --version
           aider-skills --version
+
+      - name: Reset README.md to clean skeleton
+        # Safety net: truncate README.md to a minimal header before aider runs.
+        # This guarantees aider always writes a fresh table into an empty file
+        # rather than risk a SEARCH/REPLACE patch duplicating existing content.
+        run: |
+          cat > README.md << 'SKELETON'
+# 25 Most Used File Trees in Software Development
+
+SKELETON
 
       - name: Prepare prompt (inject today's date)
         id: prompt
@@ -61,9 +69,6 @@ jobs:
           # GitHub Models API: use GITHUB_TOKEN as the OpenAI-compatible key
           OPENAI_API_KEY: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # aider-skills tmpfile generates the <available_skills> XML covering
-          # SKILL.md + all references/ files, written to a temp file.
-          # aider reads it as read-only context per the agentskills.io spec.
           SKILLS_TMPFILE=$(aider-skills tmpfile ./skills)
 
           aider \
