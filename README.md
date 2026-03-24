@@ -3,33 +3,33 @@
 > Ordered by prevalence of use across the software development ecosystem.
 > Last updated: 2026-03-24
 
-| #  | Name                              | Summary Description              | Detail                                                                 |
-|----|-----------------------------------|----------------------------------|-----------------------------------------------------------------------|
-| 1  | **src/ + tests/**                 | Standard source and test folders | Common in most programming languages for organizing code and tests.   |
-| 2  | **Maven Standard Directory Layout** | Java project structure           | Widely used in Java projects, especially with Maven and Gradle tools. |
-| 3  | **Next.js App Directory**         | React-based web apps             | Default structure for Next.js projects, supporting server-side rendering. |
-| 4  | **Django Project Layout**         | Python web framework structure   | Used in Django projects for MVC architecture and app modularity.      |
-| 5  | **Rails Default Structure**       | Ruby on Rails projects           | Convention-over-configuration structure for web applications.         |
-| 6  | **Feature-Sliced Design**         | Feature-based modular structure  | Popular in frontend projects for scalable and maintainable codebases. |
-| 7  | **Monorepo**                      | Single repo for multiple projects| Common in large organizations for managing interdependent projects.   |
-| 8  | **Clean Architecture**            | Layered architecture             | Focuses on separation of concerns and testability.                    |
-| 9  | **Hexagonal Architecture**        | Ports and adapters architecture  | Emphasizes decoupling of business logic from external systems.        |
-| 10 | **Microservices Layout**          | Independent service structure    | Used for distributed systems with independent deployable services.    |
-| 11 | **Serverless Framework**          | Cloud function organization      | Structure for serverless applications using AWS Lambda, Azure, etc.   |
-| 12 | **Terraform Modules**             | Infrastructure as code           | Organizes reusable infrastructure modules for cloud provisioning.     |
-| 13 | **Podman Project Layout**         | Containerized app structure      | Used for containerized applications with Podman and Docker.           |
-| 14 | **Data Science Project Template** | Analysis and ML projects         | Organizes data, notebooks, and scripts for reproducible research.     |
-| 15 | **Spring Boot Default Layout**    | Java microservices               | Default structure for Spring Boot applications.                       |
-| 16 | **Flutter Project Layout**        | Mobile app development           | Default structure for Flutter apps, supporting cross-platform builds. |
-| 17 | **CI/CD Pipeline Layout**         | Continuous integration/delivery  | Organizes pipeline scripts and configurations for automated workflows.|
-| 18 | **Electron App Structure**        | Desktop apps with web tech       | Structure for building cross-platform desktop apps using web tech.    |
-| 19 | **Unity Project Layout**          | Game development                 | Default structure for Unity game projects.                            |
-| 20 | **React Native Project Layout**   | Mobile app development           | Default structure for React Native apps.                              |
-| 21 | **Express.js App Layout**         | Node.js web apps                 | Common structure for Express.js applications.                         |
-| 22 | **Nuxt.js Project Layout**        | Vue-based web apps               | Default structure for Nuxt.js projects, supporting server-side rendering. |
-| 23 | **Kubernetes Manifests**          | Container orchestration configs  | Organizes YAML files for Kubernetes deployments and services.         |
-| 24 | **Agent Skills Layout**           | AI agent skills                  | Standard structure for agent skills as per agentskills.io guidelines. |
-| 25 | **Static Site Generators**        | Static website projects          | Structure for static site generators like Jekyll, Hugo, and Gatsby.   |
+| #  | Name                              | Summary Description               | Detail                                                                 |
+|----|-----------------------------------|-----------------------------------|-----------------------------------------------------------------------|
+| 1  | **src/ + tests/**                 | Standard source and test folders  | Common in most programming languages. Separates source code and tests.|
+| 2  | **Maven Standard Directory Layout** | Java project structure            | Includes src/main/java for code and src/test/java for tests.          |
+| 3  | **Monorepo**                      | Single repository for multiple projects | Used by large organizations to manage multiple projects in one repo. |
+| 4  | **Next.js Default Layout**        | Framework-mandated React structure | Includes pages/, components/, and public/ folders.                   |
+| 5  | **Django Default Layout**         | Python web framework structure    | Includes apps/, templates/, and static/ folders.                     |
+| 6  | **Rails Default Layout**          | Ruby web framework structure      | Includes app/, config/, and db/ folders.                             |
+| 7  | **Flutter Project Layout**        | Mobile app structure              | Includes lib/, test/, and android/ios/ folders.                      |
+| 8  | **Spring Boot Layout**            | Java microservices structure      | Includes src/main/resources and src/main/java folders.               |
+| 9  | **Clean Architecture**            | Layered architecture              | Separates concerns into layers like domain, application, and infrastructure. |
+| 10 | **Hexagonal Architecture**        | Ports and adapters architecture   | Focuses on decoupling core logic from external systems.              |
+| 11 | **Feature-Sliced Design**         | Feature-based structure           | Organizes by features rather than layers.                            |
+| 12 | **Terraform Modules Layout**      | Infrastructure as code structure  | Includes modules/, environments/, and main.tf.                       |
+| 13 | **Podman/Docker Layout**          | Containerized application structure | Includes Dockerfile, docker-compose.yml, and related configs.        |
+| 14 | **CI/CD Pipeline Layout**         | Continuous integration structure  | Includes .github/workflows/ or .gitlab-ci.yml for pipelines.         |
+| 15 | **Data Science Project Layout**   | Data analysis structure           | Includes notebooks/, data/, and scripts/ folders.                    |
+| 16 | **Agent Skills Layout**           | AI agent skill structure          | Includes skill.yaml, src/, and tests/.                               |
+| 17 | **Microservices Layout**          | Distributed services structure    | Each service has its own src/, tests/, and Dockerfile.               |
+| 18 | **Serverless Framework Layout**   | Cloud function structure          | Includes handler.js, serverless.yml, and node_modules/.              |
+| 19 | **Electron App Layout**           | Desktop app structure             | Includes main.js, renderer.js, and package.json.                     |
+| 20 | **Unity Project Layout**          | Game development structure        | Includes Assets/, ProjectSettings/, and Library/.                    |
+| 21 | **Kubernetes Manifests Layout**   | Container orchestration structure | Includes deployment.yaml, service.yaml, and configmap.yaml.          |
+| 22 | **React Native Layout**           | Mobile app structure              | Includes src/, android/, and ios/ folders.                           |
+| 23 | **Vue.js Default Layout**         | Frontend framework structure      | Includes src/, public/, and components/.                             |
+| 24 | **Express.js App Layout**         | Node.js web app structure         | Includes app.js, routes/, and views/.                                |
+| 25 | **Static Site Generator Layout**  | Static website structure          | Includes content/, layouts/, and public/.                            |
 
 ---
 
