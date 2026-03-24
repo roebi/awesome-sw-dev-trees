@@ -76,9 +76,11 @@ jobs:
             CHANGES="Ranking or content updated — diff the commit for details."
           fi
 
-          # Prepend new entry to CHANGELOG.md (temp file swap)
-          NEW_ENTRY="## $TODAY\n\n- $CHANGES\n\n---\n\n"
-          printf "$NEW_ENTRY" | cat - CHANGELOG.md > /tmp/CHANGELOG.tmp
+          # Insert new entry after the first --- separator (below the header)
+          NEW_ENTRY="## $TODAY\n\n- $CHANGES\n"
+          awk -v entry="$NEW_ENTRY" \
+            'FNR==1{found=0} /^---$/ && !found {print; printf "%s\n", entry; found=1; next} {print}' \
+            CHANGELOG.md > /tmp/CHANGELOG.tmp
           mv /tmp/CHANGELOG.tmp CHANGELOG.md
 
       - name: Commit and push changes
