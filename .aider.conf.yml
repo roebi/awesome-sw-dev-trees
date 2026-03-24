@@ -15,7 +15,7 @@ openai-api-base: https://models.inference.ai.azure.com
 # <available_skills> XML, as defined by the agentskills.io spec.
 
 # Suppress interactive prompts — essential for CI
-yes: true
+yes-always: true
 
 # No repo map needed for a 2-file project
 map-tokens: 0
