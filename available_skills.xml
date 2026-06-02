@@ -1,0 +1,8 @@
+<available_skills>
+  <skill>
+    <name>list-sw-dev-file-trees-en</name>
+    <description>Generates or refreshes a ranked list of the 25 most-used file tree structures in software development, writing the result as a formatted Markdown table into README.md and appending a dated entry to CHANGELOG.md. Activate when asked to "update the file tree list", "refresh the README", "regenerate the sw dev trees", or when run by the bi-weekly GitHub Actions workflow in awesome-sw-dev-trees.
+</description>
+    <location>./skills/list-sw-dev-file-trees-en/SKILL.md</location>
+  </skill>
+</available_skills>
